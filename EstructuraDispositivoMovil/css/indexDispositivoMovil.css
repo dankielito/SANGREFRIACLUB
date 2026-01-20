@@ -1,0 +1,85 @@
+/* Variables basadas en el Lienzo SANGRE FRIA */
+:root {
+    --azul-oscuro: #78a6b5;
+    --azul-claro: #c0d1d6;
+    --blanco-puro: #ffffff;
+}
+
+body {
+    background: linear-gradient(180deg, var(--blanco-puro) 0%, var(--azul-claro) 100%);
+    color: var(--azul-oscuro);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.header-logos {
+    width: 100%;
+    padding: 25px 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.header-logos img {
+    height: 85px;
+    width: auto;
+    filter: drop-shadow(2px 4px 6px rgba(120, 166, 181, 0.2));
+}
+
+.container {
+    width: 90%;
+    max-width: 420px;
+    margin-top: 10px;
+}
+
+.modulo {
+    background-color: rgba(255, 255, 255, 0.6);
+    border: 2px solid var(--azul-oscuro);
+    border-radius: 18px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.modulo-header {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--azul-oscuro);
+    color: var(--blanco-puro);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-desplegar {
+    background-color: var(--azul-claro);
+    color: var(--azul-oscuro);
+    border: none;
+    padding: 5px 12px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.modulo-contenido {
+    display: none;
+    padding: 15px;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modulo-contenido.active {
+    display: flex;
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

@@ -1,0 +1,130 @@
+/* --- CONTENEDOR MAESTRO --- */
+.live-master-wrapper {
+    position: relative;
+    width: 100%;
+    height: 480px;
+    margin: 15px 0 25px 0;
+    border-radius: 20px;
+    border: 2px solid #c0d1d6;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    animation: glowBorder 4s infinite ease-in-out;
+}
+
+.live-slider {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* --- ANIMACIÓN DESLIZAR (IPHONE STYLE) --- */
+.live-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(100%);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.live-slide.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+.live-slide iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: #131517;
+}
+
+/* --- TARJETAS PRÓXIMAMENTE --- */
+.proximamente-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #131517 0%, #1a1c1e 100%);
+    color: white;
+    text-align: center;
+}
+
+.proximamente-content i {
+    font-size: 4rem;
+    color: #78a6b5; /* Rojo YouTube */
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 10px rgb(210, 241, 255));
+}
+
+.proximamente-content h2 {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    margin: 5px 0;
+}
+
+.proximamente-content p {
+    font-size: 0.8rem;
+    color: #78a6b5;
+    font-weight: bold;
+    letter-spacing: 4px;
+    border: 1px solid #78a6b5;
+    padding: 5px 15px;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+/* --- BOTÓN Y PUNTOS --- */
+.live-switch-btn {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    z-index: 50;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(120, 166, 181, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.live-switch-btn:active { transform: scale(0.8) rotate(90deg); }
+
+.live-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 50;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    transition: 0.4s;
+}
+
+.dot.active {
+    width: 25px;
+    background: #ffffff;
+    border-radius: 10px;
+}
+
+@keyframes glowBorder {
+    0%, 100% { border-color: #c0d1d6; }
+    50% { border-color: #ffffff; }
+}

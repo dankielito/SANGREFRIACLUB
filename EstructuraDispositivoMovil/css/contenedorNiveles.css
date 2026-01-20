@@ -1,0 +1,125 @@
+/* ============================================================
+   CONTENEDOR MAESTRO (CHASIS DEL TELÉFONO)
+   ============================================================ */
+.cuerpo-movil-contenedor {
+    position: relative;
+    width: 92%;           /* Margen lateral para ver el fondo del index */
+    max-width: 420px;     /* Bloqueo de ancho para que no se vea como PC */
+    margin: 20px auto;    /* Centrado horizontal */
+    
+    /* Altura mínima para que siempre parezca un teléfono largo */
+    min-height: 80vh;     
+    
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 45px;  /* Esquinas muy redondeadas estilo smartphone moderno */
+    padding: 25px 15px;
+    z-index: 1;
+    overflow: hidden;     /* Necesario para ocultar el exceso del brillo giratorio */
+    box-sizing: border-box;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    
+    /* Flexbox para empujar los botones de página al final */
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============================================================
+   EFECTO "PISTA DE CARRERAS" (BORDE NEÓN GIRATORIO)
+   ============================================================ */
+
+/* La luz que gira */
+.cuerpo-movil-contenedor::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+        transparent, 
+        #78a6b5,      /* Tu color Neón */
+        transparent 30%
+    );
+    animation: rotateBorder 4s linear infinite;
+    z-index: -2;
+}
+
+/* El fondo blanco interno (Crea el efecto de borde de 4px) */
+.cuerpo-movil-contenedor::after {
+    content: "";
+    position: absolute;
+    inset: 4px;       /* Grosor del borde neón */
+    background: white;
+    border-radius: 41px; 
+    z-index: -1;
+}
+
+/* Animación de rotación */
+@keyframes rotateBorder {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   ESTRUCTURA INTERNA Y LOGOS
+   ============================================================ */
+
+.header-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    position: relative;
+    z-index: 10;
+}
+
+.header-logos img {
+    height: 55px;
+    width: auto;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.1));
+}
+
+/* Contenedor que guarda las páginas (Nivel 1, 2 y 3) */
+#wrapper-paginas {
+    flex: 1;          /* Ocupa todo el espacio central disponible */
+    width: 100%;
+    position: relative;
+    z-index: 5;
+}
+
+.page-content {
+    width: 100%;
+    /* Animación de entrada suave al cambiar de página */
+    animation: fadeInPage 0.5s ease-out forwards;
+}
+
+@keyframes fadeInPage {
+    from { 
+        opacity: 0; 
+        transform: translateY(10px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+/* ============================================================
+   AJUSTES PARA EL MAIN CONTAINER
+   ============================================================ */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+    background: transparent !important; /* Para que se vea tu fondo con estrellas/nieve */
+}
+
+/* Asegurar que los módulos ocupen el ancho del chasis */
+.modulo {
+    width: 100%;
+    box-sizing: border-box;
+}
