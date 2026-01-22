@@ -1,0 +1,233 @@
+/* ============================================================
+   MARCO CON EFECTO PISTA DE CARRERAS (NEÓN GIRATORIO)
+   ============================================================ */
+   .playlist-neon-frame {
+    position: relative;
+    width: 94%;
+    margin: 20px auto;
+    border-radius: 30px;
+    z-index: 1;
+    overflow: hidden;
+    box-sizing: border-box;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    display: flex;
+    padding: 4px; /* Grosor del borde neón */
+}
+
+.playlist-neon-frame::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(transparent, #78a6b5, transparent 30%);
+    animation: rotatePlaylistBorder 4s linear infinite;
+    z-index: -2;
+}
+
+.playlist-neon-frame::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    background: linear-gradient(-45deg, #ffffff, #e3f2f6, #78a6b5, #ffffff);
+    background-size: 400% 400%;
+    animation: playlistGradientBG 8s ease infinite;
+    border-radius: 26px;
+    z-index: -1;
+}
+
+@keyframes rotatePlaylistBorder {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes playlistGradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ============================================================
+   CONTENEDOR DE CONTENIDO
+   ============================================================ */
+.custom-playlist-container {
+    width: 100%;
+    padding: 15px;
+    z-index: 2;
+    background: transparent;
+    box-sizing: border-box;
+}
+
+/* ============================================================
+   REPRODUCTOR PRINCIPAL RESPONSIVO (CON ANIMACIÓN ZOOM)
+   ============================================================ */
+.main-playlist-card {
+    display: block;
+    background: rgba(26, 28, 30, 0.98);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    border: 1px solid #78a6b5;
+    transition: all 0.3s ease;
+}
+
+/* Contenedor 16:9 para que el iframe no se salga jamás */
+.video-responsive-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
+    height: 0;
+    overflow: hidden;
+    background: #000;
+    /* Animación de zoom suave al cargar video */
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+}
+
+.video-responsive-container iframe,
+.video-responsive-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+    object-fit: cover;
+}
+
+.card-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 3rem;
+    z-index: 2;
+}
+
+.card-info {
+    padding: 12px;
+    color: white;
+    text-align: center;
+    transition: background 0.3s ease;
+}
+
+.playing-mode {
+    background: #000 !important;
+    border-top: 1px solid rgba(120, 166, 181, 0.5);
+}
+
+.card-info h3 { margin: 0; font-size: 0.9rem; color: #78a6b5; font-weight: 900; text-transform: uppercase; }
+.card-info p { margin: 4px 0 0; font-size: 0.7rem; opacity: 0.6; }
+
+/* ============================================================
+   SELECTOR DE CATEGORÍAS
+   ============================================================ */
+.category-selector {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.category-selector span { 
+    font-weight: 900; 
+    color: #1a1c1e; 
+    font-size: 0.8rem; 
+    text-transform: uppercase;
+}
+
+.category-selector button { 
+    background: none; 
+    border: none; 
+    color: #78a6b5; 
+    cursor: pointer; 
+    font-size: 1.1rem;
+}
+
+/* ============================================================
+   LISTA DE VIDEOS
+   ============================================================ */
+.video-scroll-list {
+    max-height: 320px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.video-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid white;
+    backdrop-filter: blur(10px);
+}
+
+.video-clickable {
+    display: flex;
+    flex: 1;
+    cursor: pointer;
+    align-items: center;
+}
+
+.video-item img { 
+    width: 85px; 
+    height: 55px; 
+    object-fit: cover; 
+}
+
+.video-details { 
+    padding: 10px; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+}
+
+.v-title { 
+    color: #1a1c1e; 
+    font-size: 0.7rem; 
+    font-weight: 800; 
+    line-height: 1.2;
+}
+
+.v-tag { 
+    color: #78a6b5; 
+    font-size: 0.55rem; 
+    font-weight: 900; 
+    text-transform: uppercase; 
+}
+
+.btn-detalles {
+    background: #78a6b5;
+    color: white;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.btn-detalles:hover { transform: rotate(90deg); background: #1a1c1e; }
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+.video-scroll-list::-webkit-scrollbar { width: 5px; }
+.video-scroll-list::-webkit-scrollbar-thumb { 
+    background: #78a6b5; 
+    border-radius: 10px; 
+}

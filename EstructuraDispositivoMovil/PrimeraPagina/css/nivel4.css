@@ -1,0 +1,125 @@
+/* --- SEPARADOR BRILLANTE --- */
+.separador-brillante {
+    width: 100%;
+    height: 2px;
+    background: #1a1c1e;
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.separador-brillante::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, #78a6b5, #ffffff, #78a6b5, transparent);
+    animation: brilloSeparador 3s infinite linear;
+}
+
+@keyframes brilloSeparador {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* --- CONTENEDOR PRINCIPAL NIVEL 4 --- */
+#visuales {
+    position: relative;
+    padding-bottom: 10px;
+}
+
+/* --- BOTÓN COMPRAR (EFECTO CONGELADO) --- */
+.btn-comprar-visuales {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 12px;
+    text-decoration: none;
+    margin-bottom: 20px;
+    border: 1px solid #78a6b5;
+    position: relative;
+    z-index: 10;
+    overflow: hidden;
+    background-image: radial-gradient(circle at right, rgba(120, 166, 181, 0.4), transparent 70%);
+}
+
+.texto-congelado {
+    font-weight: 900;
+    font-size: 1.3rem;
+    color: #78a6b5;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    z-index: 11;
+    animation: efectoHieloTexto 4s ease-in-out infinite;
+}
+
+@keyframes efectoHieloTexto {
+    0%, 100% { color: #78a6b5; text-shadow: none; transform: scale(1); }
+    50% { color: #ffffff; text-shadow: 0 0 8px #78a6b5, 0 0 15px #ffffff; transform: scale(1.02); }
+}
+
+/* --- COPO DE NIEVE SVG LATERAL (Igual a Nivel 1,2,3) --- */
+.btn-comprar-visuales::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -5px;
+    width: 70px;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2378a6b5' fill-opacity='0.2'%3E%3Cpath d='M22,11h-4.17l3.24-3.24l-1.41-1.41L15.41,10H13V7.59l3.66-3.66l-1.41-1.41L12,5.76V2h-2v3.76L6.76,2.51L5.34,3.93L9,7.59V10H6.59 L2.93,6.34L1.51,7.76L4.76,11H0.5v2h4.26l-3.24,3.24l1.41,1.41L6.59,14H9v2.41l-3.66,3.66l1.41,1.41L10,18.24V22h2v-3.76l3.24,3.24 l1.41-1.41L13,16.41V14h2.41l3.66,3.66l1.41-1.41L17.24,13H21.5V11z'/%3E%3C/svg%3E");
+    background-size: 50px;
+    background-repeat: no-repeat;
+    background-position: right center;
+    z-index: 1;
+}
+
+/* --- INTERFAZ LISTA YOUTUBE --- */
+.youtube-playlist-wrapper {
+    position: relative;
+    width: 100%;
+    height: 500px; /* Altura para mostrar varios videos de la lista */
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px solid #78a6b5;
+    background: #000;
+    z-index: 5;
+}
+
+.youtube-playlist-wrapper iframe {
+    width: 100%;
+    height: 100%;
+}
+
+/* --- NIEVE CAYENDO (Ajuste de capas) --- */
+#visuales .snow-container {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 20; /* Asegura que caiga por encima del video y botón */
+}
+
+.snow, .snow-mid {
+    position: absolute;
+    top: -10px; width: 4px; height: 4px;
+    background: white; border-radius: 50%;
+    filter: blur(1px); opacity: 0;
+    animation: fall linear infinite;
+}
+
+.snow:nth-child(1) { left: 10%; animation-duration: 5s; }
+.snow:nth-child(2) { left: 30%; animation-duration: 7s; animation-delay: 1s; }
+.snow:nth-child(3) { left: 50%; animation-duration: 6s; animation-delay: 2s; }
+.snow:nth-child(4) { left: 70%; animation-duration: 8s; animation-delay: 0.5s; }
+.snow:nth-child(5) { left: 85%; animation-duration: 5s; animation-delay: 1.5s; }
+.snow:nth-child(6) { left: 95%; animation-duration: 9s; animation-delay: 3s; }
+
+@keyframes fall {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    20% { opacity: 0.8; }
+    80% { opacity: 0.8; }
+    100% { transform: translateY(500px) translateX(20px); opacity: 0; }
+}
