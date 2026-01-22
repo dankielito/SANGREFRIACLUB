@@ -1,11 +1,6 @@
 <?php
-// ID de tu playlist
 $playlist_id = 'PLfRglv5Ul9MgC6RNj-4BKTmaLnEWI4_oY';
 
-/**
- * Esta función obtiene el HTML de la playlist y extrae la información 
- * que YouTube oculta en el JSON interno de la página.
- */
 function obtenerVideosPlaylist($id) {
     $url = "https://www.youtube.com/playlist?list=" . $id;
     $ch = curl_init();
@@ -17,7 +12,6 @@ function obtenerVideosPlaylist($id) {
     curl_close($ch);
 
     $videos = [];
-    // Buscamos el objeto JSON que contiene los datos de los videos en el HTML
     preg_match('/var ytInitialData = (.*?);<\/script>/', $html, $matches);
     
     if (isset($matches[1])) {
@@ -31,6 +25,7 @@ function obtenerVideosPlaylist($id) {
             $v = $item['playlistVideoRenderer'];
             $title = $v['title']['runs'][0]['text'] ?? 'Sin título';
             $video_id = $v['videoId'];
+            $canal = $v['shortBylineText']['runs'][0]['text'] ?? 'Artista Desconocido';
 
             $tipo = "Visual";
             if (stripos($title, '3D') !== false) $tipo = "3D";
@@ -38,9 +33,10 @@ function obtenerVideosPlaylist($id) {
             elseif (stripos($title, 'Lyric') !== false) $tipo = "Lyric";
 
             $videos[] = [
-                "titulo" => trim(preg_replace('/\(Shot by.*?\)|Video Oficial/i', '', $title)),
+                "titulo" => trim(preg_replace('/\(Shot by.*?\)|Video Oficial|Oficial/i', '', $title)),
                 "url"    => $video_id,
-                "tipo"   => $tipo
+                "tipo"   => $tipo,
+                "canal"  => $canal
             ];
         }
     }
@@ -49,48 +45,55 @@ function obtenerVideosPlaylist($id) {
 
 $videos = obtenerVideosPlaylist($playlist_id);
 $categorias = ["TODOS", "3D", "Pixel Art", "Lyric"];
+
+include 'sweetAlertPlaylist.php'; 
 ?>
 
 <link rel="stylesheet" href="EstructuraDispositivoMovil/PrimeraPagina/playlist/css/playlist.css">
 
-<div class="playlist-neon-frame">
+<div class="cuerpo-movil-contenedor">
     <div class="custom-playlist-container">
-        <?php if (empty($videos)): ?>
-            <div style="text-align:center; color:#78a6b5; padding:40px;">
-                <p>No se pudieron cargar los videos. Intenta recargar.</p>
-            </div>
-        <?php else: ?>
+        <?php if (!empty($videos)): ?>
             
             <div id="main-player-area" class="main-playlist-card">
                 <div class="video-responsive-container" id="video-wrapper">
-                    <div class="card-img-wrapper" style="position:relative; cursor:pointer;" onclick="reproducirVideo('<?php echo $videos[0]['url']; ?>', '<?php echo addslashes($videos[0]['titulo']); ?>')">
-                        <img src="https://i.ytimg.com/vi/<?php echo $videos[0]['url']; ?>/hqdefault.jpg" style="width:100%; display:block;">
-                        <div class="card-overlay" style="position:absolute; inset:0; background:rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center;">
-                            <i class="fa-solid fa-circle-play" style="font-size:3rem; color:white;"></i>
+                    <div class="card-img-wrapper" onclick="reproducirVideo(this, '<?php echo $videos[0]['url']; ?>', '<?php echo addslashes($videos[0]['titulo']); ?>')">
+                        <img src="https://i.ytimg.com/vi/<?php echo $videos[0]['url']; ?>/hqdefault.jpg">
+                        <div class="card-overlay">
+                            <i class="fa-solid fa-circle-play"></i>
                         </div>
                     </div>
                 </div>
-                <div class="card-info" style="background:#1a1c1e; padding:15px; text-align:center;">
-                    <h3 id="player-title" style="color:#78a6b5; margin:0; font-size:0.9rem; text-transform:uppercase;"><?php echo $videos[0]['titulo']; ?></h3>
+                <div class="card-info">
+                    <h3 id="player-title"><?php echo $videos[0]['titulo']; ?></h3>
                 </div>
             </div>
 
-            <div class="category-selector">
-                <button onclick="prevCat()"><i class="fa-solid fa-chevron-left"></i></button>
-                <span id="current-cat" style="font-weight:900;">TODOS</span>
-                <button onclick="nextCat()"><i class="fa-solid fa-chevron-right"></i></button>
+            <div class="category-selector polar-card">
+                <button class="cat-btn" onclick="prevCat()"><i class="fa-solid fa-chevron-left"></i></button>
+                <span id="current-cat">TODOS</span>
+                <button class="cat-btn" onclick="nextCat()"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
 
             <div class="video-scroll-list" id="video-list">
-                <?php foreach ($videos as $v): ?>
-                    <div class="video-item" data-type="<?php echo $v['tipo']; ?>" style="cursor:pointer; margin-bottom:10px;" onclick="reproducirVideo('<?php echo $v['url']; ?>', '<?php echo addslashes($v['titulo']); ?>')">
-                        <div class="video-clickable">
-                            <img src="https://i.ytimg.com/vi/<?php echo $v['url']; ?>/mqdefault.jpg">
+                <?php foreach ($videos as $index => $v): ?>
+                    <div class="video-item polar-card" data-type="<?php echo $v['tipo']; ?>" id="video-<?php echo $index; ?>">
+                        
+                        <button class="btn-detalles" 
+                                onclick="abrirInfoVideo('<?php echo addslashes($v['titulo']); ?>', '<?php echo $v['url']; ?>', '<?php echo $v['tipo']; ?>', '<?php echo addslashes($v['canal']); ?>')">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+
+                        <div class="video-clickable" onclick="reproducirVideo(document.getElementById('video-<?php echo $index; ?>'), '<?php echo $v['url']; ?>', '<?php echo addslashes($v['titulo']); ?>')">
                             <div class="video-details">
                                 <span class="v-title"><?php echo $v['titulo']; ?></span>
-                                <span class="v-tag"><?php echo $v['tipo']; ?></span>
                             </div>
                         </div>
+
+                        <div class="rect-thumb-container" onclick="reproducirVideo(document.getElementById('video-<?php echo $index; ?>'), '<?php echo $v['url']; ?>', '<?php echo addslashes($v['titulo']); ?>')">
+                            <img src="https://i.ytimg.com/vi/<?php echo $v['url']; ?>/mqdefault.jpg" class="thumb-list">
+                        </div>
+
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -99,7 +102,12 @@ $categorias = ["TODOS", "3D", "Pixel Art", "Lyric"];
 </div>
 
 <script>
-function reproducirVideo(id, titulo) {
+function reproducirVideo(elemento, id, titulo) {
+    if(elemento && elemento.classList.contains('video-item')) {
+        elemento.classList.add('selected-video');
+        setTimeout(() => elemento.classList.remove('selected-video'), 600);
+    }
+
     const wrapper = document.getElementById('video-wrapper');
     wrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>`;
     document.getElementById('player-title').innerText = titulo;
