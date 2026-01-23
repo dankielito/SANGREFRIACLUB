@@ -12,29 +12,29 @@ function abrirInfoVideo(titulo, id, canal) {
     Swal.fire({
         customClass: {
             popup: 'aurora-bg-swal',
-            closeButton: 'btn-cerrar-circular-hielo' 
+            closeButton: 'btn-cerrar-circular-fuera' 
         },
         showConfirmButton: false,
         showCloseButton: true,
-        // El div con onclick asegura que cierre al 100%
-        closeButtonHtml: '<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;" onclick="Swal.close()"><i class="fa-solid fa-xmark"></i></div>',
+        closeButtonHtml: '<i class="fa-solid fa-xmark"></i>', 
         allowOutsideClick: true,
         html: `
             <div class="swal-content-wrapper">
                 <h3 class="swal-titulo-video">${titulo}</h3>
                 <div class="swal-img-container">
-                    <img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg">
+                    <img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" class="img-recortada">
                     <div onclick="verMiniaturaGigante('${id}')" class="lupa-congelada">
                         <i class="fa-solid fa-magnifying-glass-plus"></i>
                     </div>
                 </div>
                 <div class="swal-info-box">
-                    <p><i class="fa-solid fa-user"></i> <b>ARTISTA:</b> ${canal}</p>
-                    <p><i class="fa-solid fa-layer-group"></i> <b>CATEGORÍA:</b> ${infoExtra.tipo}</p>
-                    <p><i class="fa-solid fa-calendar-day"></i> <b>FECHA:</b> ${infoExtra.fecha}</p>
+                    <p><i class="fa-solid fa-user"></i> ARTISTA: ${canal}</p>
+                    <p><i class="fa-solid fa-layer-group"></i> CATEGORÍA: ${infoExtra.tipo}</p>
+                    <p><i class="fa-solid fa-calendar-day"></i> FECHA: ${infoExtra.fecha}</p>
                 </div>
-                <a href="https://www.youtube.com/watch?v=${id}" target="_blank" class="swal-yt-btn">
-                    VER EN YOUTUBE <i class="fa-brands fa-youtube"></i>
+                <a href="https://www.youtube.com/watch?v=${id}" target="_blank" class="link-card-hielo">
+                    <i class="fa-brands fa-youtube icon-yt-hielo"></i>
+                    <span>VER EN YOUTUBE</span>
                 </a>
             </div>
         `
@@ -43,14 +43,19 @@ function abrirInfoVideo(titulo, id, canal) {
 
 function verMiniaturaGigante(id) {
     Swal.fire({
-        imageUrl: `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`,
-        background: 'rgba(255,255,255,0.95)',
+        html: `<div style="width:100%; aspect-ratio:16/9; overflow:hidden; border-radius:20px;">
+                 <img src="https://i.ytimg.com/vi/${id}/maxresdefault.jpg" class="img-full-recortada">
+               </div>`,
+        background: 'transparent',
         backdrop: `rgba(120, 166, 181, 0.4) blur(8px)`,
         showConfirmButton: false,
         showCloseButton: true,
-        closeButtonHtml: '<div onclick="Swal.close()"><i class="fa-solid fa-xmark"></i></div>',
+        closeButtonHtml: '<i class="fa-solid fa-xmark"></i>',
         width: '95%',
-        customClass: { closeButton: 'btn-cerrar-circular-hielo' }
+        customClass: { 
+            popup: 'popup-lupa-transparente',
+            closeButton: 'btn-cerrar-circular-fuera' 
+        }
     });
 }
 </script>
