@@ -42,9 +42,24 @@ function abrirInfoVideo(titulo, id, canal) {
 }
 
 function verMiniaturaGigante(id) {
+    // Definimos la ruta de tus imágenes locales
+    const rutaLocal = "EstructuraDispositivoMovil/PrimeraPagina/playlist/img/";
+    
+    // Mapeo de IDs de YouTube a tus archivos descargados
+    const mapeoLocal = {
+        'toA7TAhdJQM': 'mala.jpg',          // MALA
+        'ih8asyTq1oQ': 'hablame.jpg',       // Hablame
+        'Sx8w6pJpb3A': 'subemeLaNota.jpg'   // Subeme La Nota
+    };
+
+    // Si el ID está en el mapa, usamos la ruta local, si no, la de YouTube
+    let urlImagen = mapeoLocal[id] 
+        ? rutaLocal + mapeoLocal[id] 
+        : `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
+
     Swal.fire({
-        html: `<div style="width:100%; aspect-ratio:16/9; overflow:hidden; border-radius:20px;">
-                 <img src="https://i.ytimg.com/vi/${id}/maxresdefault.jpg" class="img-full-recortada">
+        html: `<div style="width:100%; aspect-ratio:16/9; overflow:hidden; border-radius:20px; background:#000;">
+                 <img src="${urlImagen}" class="img-full-recortada">
                </div>`,
         background: 'transparent',
         backdrop: `rgba(120, 166, 181, 0.4) blur(8px)`,
