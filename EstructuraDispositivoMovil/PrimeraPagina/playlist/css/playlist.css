@@ -9,14 +9,15 @@
     border-radius: 45px;
     padding: 25px 10px;
     z-index: 1;
-    overflow: hidden; /* IMPORTANTE: Corta cualquier desbordamiento */
-    overflow-x: hidden; /* Evita la barra lateral indeseada */
+    overflow: hidden; /* Corta cualquier desbordamiento */
+    overflow-x: hidden; /* Evita barras horizontales */
     box-sizing: border-box;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     display: flex;
     flex-direction: column;
 }
 
+/* La luz neón que gira */
 .cuerpo-movil-contenedor::before {
     content: "";
     position: absolute;
@@ -27,6 +28,7 @@
     z-index: -2;
 }
 
+/* Fondo Aurora Boreal animado */
 .cuerpo-movil-contenedor::after {
     content: "";
     position: absolute;
@@ -50,7 +52,73 @@
 }
 
 /* ============================================================
-   CONTENEDORES DE VIDEOS
+   REPRODUCTOR PRINCIPAL
+   ============================================================ */
+.main-playlist-card { 
+    background: #000; 
+    border-radius: 20px; 
+    overflow: hidden; 
+    margin-bottom: 15px; 
+    border: 2px solid #78a6b5;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.video-responsive-container { 
+    position: relative; 
+    width: 100%; 
+    padding-bottom: 56.25%; 
+    height: 0; 
+    overflow: hidden;
+    border-radius: 18px;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.card-info h3 { 
+    margin: 0; 
+    padding: 10px; 
+    color: #78a6b5; 
+    font-size: 0.8rem; 
+    font-weight: 900; 
+    text-transform: uppercase; 
+    text-align: center; 
+}
+
+/* ============================================================
+   SELECTORES DE CATEGORÍA
+   ============================================================ */
+.category-selector {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 30px !important;
+    margin-bottom: 15px;
+}
+
+.cat-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid #78a6b5;
+    background: white;
+    color: #78a6b5;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#current-cat {
+    font-weight: 800;
+    color: #4e8ca0;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+/* ============================================================
+   LISTA DE VIDEOS (ITEMS)
    ============================================================ */
 .polar-card {
     background: rgba(255, 255, 255, 0.7) !important;
@@ -72,9 +140,26 @@
 }
 
 .selected-video {
-    transform: translateX(10px); /* Reducido para no salirse del chasis */
+    transform: translateX(10px);
+    border-left: 4px solid #78a6b5 !important;
 }
 
+.video-details { 
+    flex: 1; 
+    padding: 0 10px; 
+    overflow: hidden; 
+}
+
+.v-title { 
+    color: #1a1c1e; 
+    font-size: 0.7rem; 
+    font-weight: 800; 
+    text-transform: uppercase; 
+    line-height: 1.1; 
+    display: block; 
+}
+
+/* Miniaturas en la lista */
 .rect-thumb-container {
     width: 90px;
     height: 55px;
@@ -90,9 +175,7 @@
     object-fit: cover !important;
 }
 
-/* ============================================================
-   BOTONES Y SELECTOR
-   ============================================================ */
+/* Botón de detalles (+) */
 .btn-detalles {
     width: 32px;
     height: 32px;
@@ -108,37 +191,9 @@
     cursor: pointer;
 }
 
-.category-selector {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 12px;
-    border-radius: 30px !important;
-    margin-bottom: 15px;
-}
-
-.cat-btn {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: 1px solid #78a6b5;
-    background: white;
-    color: #78a6b5;
-    cursor: pointer;
-}
-
-/* REPRODUCTOR */
-.main-playlist-card { 
-    background: #000; 
-    border-radius: 20px; 
-    overflow: hidden; 
-    margin-bottom: 15px; 
-    border: 2px solid #78a6b5; 
-}
-.video-responsive-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; overflow: hidden; }
-.card-info h3 { margin: 0; padding: 10px; color: #78a6b5; font-size: 0.8rem; font-weight: 900; text-transform: uppercase; text-align: center; }
-
-/* SCROLLBAR OCULTA PERO FUNCIONAL */
+/* ============================================================
+   SCROLLBAR (OCULTA PERO FUNCIONAL)
+   ============================================================ */
 .video-scroll-list { 
     max-height: 400px; 
     overflow-y: auto; 
@@ -146,9 +201,7 @@
     padding-right: 0px; 
     scrollbar-width: none; /* Firefox */
 }
+
 .video-scroll-list::-webkit-scrollbar { 
     display: none; /* Chrome, Safari, Edge */
 }
-
-.video-details { flex: 1; padding: 0 10px; overflow: hidden; }
-.v-title { color: #1a1c1e; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; line-height: 1.1; display: block; }

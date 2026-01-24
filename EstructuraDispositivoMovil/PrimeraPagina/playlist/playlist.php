@@ -50,22 +50,21 @@ include 'sweetAlertPlaylist.php';
 ?>
 
 <link rel="stylesheet" href="EstructuraDispositivoMovil/PrimeraPagina/playlist/css/playlist.css">
+<link rel="stylesheet" href="EstructuraDispositivoMovil/PrimeraPagina/playlist/css/video.css">
 
-<div class="cuerpo-movil-contenedor">
+<div class="cuerpo-movil-contenedor" id="portafolio-main-container">
     <div class="custom-playlist-container">
         <?php if (!empty($videos)): ?>
             
             <div id="main-player-area" class="main-playlist-card">
                 <div class="video-responsive-container" id="video-wrapper">
-                    <div class="card-img-wrapper" onclick="reproducirVideo(this, '<?php echo $videos[0]['url']; ?>', '<?php echo addslashes($videos[0]['titulo']); ?>')">
-                        <img src="https://i.ytimg.com/vi/<?php echo $videos[0]['url']; ?>/hqdefault.jpg">
-                        <div class="card-overlay">
-                            <i class="fa-solid fa-circle-play"></i>
-                        </div>
-                    </div>
+                    <video id="intro-video-local" class="video-intro-estilo" autoplay muted loop playsinline>
+                        <source src="EstructuraDispositivoMovil/PrimeraPagina/playlist/video/video.mp4" type="video/mp4">
+                        Tu navegador no soporta video.
+                    </video>
                 </div>
                 <div class="card-info">
-                    <h3 id="player-title"><?php echo $videos[0]['titulo']; ?></h3>
+                    <h3 id="player-title">SHOT BY DANKIEL | SANGRE FRIA</h3>
                 </div>
             </div>
 
@@ -105,6 +104,19 @@ include 'sweetAlertPlaylist.php';
 </div>
 
 <script>
+// --- CONTROL DE RAM: Solo play si es visible ---
+const videoLocal = document.getElementById('intro-video-local');
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (videoLocal) {
+            if (entry.isIntersecting) { videoLocal.play(); } 
+            else { videoLocal.pause(); }
+        }
+    });
+}, { threshold: 0.1 });
+
+observer.observe(document.getElementById('portafolio-main-container'));
+
 function reproducirVideo(elemento, id, titulo) {
     if(elemento && elemento.classList.contains('video-item')) {
         document.querySelectorAll('.video-item').forEach(v => v.classList.remove('selected-video'));
@@ -112,19 +124,22 @@ function reproducirVideo(elemento, id, titulo) {
     }
 
     const wrapper = document.getElementById('video-wrapper');
-    wrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>`;
+    
+    // Si el video local existe, lo pausamos antes de quitarlo
+    if(videoLocal) videoLocal.pause();
+
+    // Transición suave al iframe de YouTube
+    wrapper.style.opacity = '0';
+    setTimeout(() => {
+        wrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%; border-radius:18px;"></iframe>`;
+        wrapper.style.opacity = '1';
+    }, 300);
+
     document.getElementById('player-title').innerText = titulo;
     
-    // SCROLL EXACTO AL REPRODUCTOR
     const playerArea = document.getElementById('main-player-area');
-    const offset = 20; // Espacio de respeto arriba
-    const bodyRect = document.body.getBoundingClientRect().top;
-    const elementRect = playerArea.getBoundingClientRect().top;
-    const elementPosition = elementRect - bodyRect;
-    const offsetPosition = elementPosition - offset;
-
     window.scrollTo({
-        top: offsetPosition,
+        top: playerArea.getBoundingClientRect().top + window.scrollY - 20,
         behavior: 'smooth'
     });
 }
@@ -137,15 +152,7 @@ function updatePlaylist() {
     document.getElementById('current-cat').innerText = current;
     document.querySelectorAll('.video-item').forEach(item => {
         const typeTag = item.getAttribute('data-type').toUpperCase();
-        if (current === "TODOS") {
-            item.style.display = "flex";
-        } else {
-            if (typeTag.includes(current.toUpperCase())) {
-                item.style.display = "flex";
-            } else {
-                item.style.display = "none";
-            }
-        }
+        item.style.display = (current === "TODOS" || typeTag.includes(current.toUpperCase())) ? "flex" : "none";
     });
 }
 
