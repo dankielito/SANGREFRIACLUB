@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="EstructuraDispositivoMovil/css/indexDispositivoMovil.css">
     <link rel="stylesheet" href="EstructuraDispositivoMovil/css/contenedorNiveles.css">
     
-    <link rel="stylesheet" href="EstructuraDispositivoMovil/PrimeraPagina/css/nivel1.css">
-    <link rel="stylesheet" href="EstructuraDispositivoMovil/PrimeraPagina/css/nivel2.css">
+    <link rel="stylesheet" href="EstructuraDispositivoMovil/PrimeraPagina/Nivel1/css/nivel1.css">
+    <link rel="stylesheet" href="EstructuraDispositivoMovil/PrimeraPagina/Nivel2/css/nivel2.css">
     <link rel="stylesheet" href="EstructuraDispositivoMovil/PrimeraPagina/css/nivel3.css">
     <link rel="stylesheet" href="EstructuraDispositivoMovil/PrimeraPagina/css/nivel4.css">
 </head>

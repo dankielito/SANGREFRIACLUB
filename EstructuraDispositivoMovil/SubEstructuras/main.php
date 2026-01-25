@@ -7,10 +7,10 @@
 
         <div id="wrapper-paginas">
             <div id="page-1" class="page-content active">
-                <?php include 'EstructuraDispositivoMovil/PrimeraPagina/nivel1.php'; ?>
-                <?php include 'EstructuraDispositivoMovil/PrimeraPagina/nivel2.php'; ?>
-                <?php include 'EstructuraDispositivoMovil/PrimeraPagina/nivel3.php'; ?>
-                <?php include 'EstructuraDispositivoMovil/PrimeraPagina/nivel4.php'; ?>
+                <?php include 'EstructuraDispositivoMovil/PrimeraPagina/Nivel1/nivel1.php'; ?>
+                <?php include 'EstructuraDispositivoMovil/PrimeraPagina/Nivel2/nivel2.php'; ?>
+                <?php include 'EstructuraDispositivoMovil/PrimeraPagina/Nivel3/nivel3.php'; ?>
+                <?php include 'EstructuraDispositivoMovil/PrimeraPagina/Nivel4/nivel4.php'; ?>
             </div>
 
             <div id="page-2" class="page-content" style="display:none;">

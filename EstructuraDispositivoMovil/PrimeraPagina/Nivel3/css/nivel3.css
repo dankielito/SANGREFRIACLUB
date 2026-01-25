@@ -1,0 +1,102 @@
+/* EFECTOS NIVEL 3: CONGELACIÓN (CLON NIVEL 1) */
+
+#comunidad {
+    position: relative;
+    overflow: hidden;
+}
+
+#comunidad .link-card {
+    position: relative;
+    overflow: hidden;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #78a6b5; /* Azul oscuro del Nivel 1 */
+    border: 1px solid #c0d1d6; /* Azul claro del Nivel 1 */
+    background-image: radial-gradient(circle at right, rgba(120, 166, 181, 0.6), rgba(78, 140, 160, 0.2), transparent 80%);
+    animation: bucleCongelacionN3 4s ease-in-out infinite;
+    z-index: 1;
+    margin-bottom: 10px;
+}
+
+/* --- NIEVE CAYENDO --- */
+.snow-container {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.snow {
+    position: absolute;
+    top: -10px; width: 4px; height: 4px;
+    background: white; border-radius: 50%;
+    filter: blur(1px); opacity: 0;
+    animation: fallN3 linear infinite;
+}
+
+.snow:nth-child(1) { left: 10%; animation-duration: 5s; }
+.snow:nth-child(2) { left: 30%; animation-duration: 7s; animation-delay: 1s; }
+.snow:nth-child(3) { left: 50%; animation-duration: 6s; animation-delay: 2s; }
+.snow:nth-child(4) { left: 70%; animation-duration: 8s; animation-delay: 0.5s; }
+.snow:nth-child(5) { left: 85%; animation-duration: 5s; animation-delay: 1.5s; }
+.snow:nth-child(6) { left: 95%; animation-duration: 9s; animation-delay: 3s; }
+
+/* COPO SVG EN LA ESQUINA (IDÉNTICO) */
+#comunidad .link-card::after {
+    content: "";
+    position: absolute;
+    top: 0; right: -5px; width: 80px; height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white' fill-opacity='0.3'%3E%3Cpath d='M22,11h-4.17l3.24-3.24l-1.41-1.41L15.41,10H13V7.59l3.66-3.66l-1.41-1.41L12,5.76V2h-2v3.76L6.76,2.51L5.34,3.93L9,7.59V10H6.59 L2.93,6.34L1.51,7.76L4.76,11H0.5v2h4.26l-3.24,3.24l1.41,1.41L6.59,14H9v2.41l-3.66,3.66l1.41,1.41L10,18.24V22h2v-3.76l3.24,3.24 l1.41-1.41L13,16.41V14h2.41l3.66,3.66l1.41-1.41L17.24,13H21.5V11z'/%3E%3C/svg%3E");
+    background-size: 55px; background-repeat: no-repeat; background-position: right center;
+    z-index: 5; mix-blend-mode: screen;
+    animation: brilloHieloN3 5s ease-in-out infinite;
+}
+
+/* LLAMARADA AZUL INFERIOR (FUEGO FRÍO) */
+#comunidad .link-card::before {
+    content: "♪ ♪ ♪"; 
+    position: absolute; right: 15px; bottom: -12px; font-size: 32px;
+    color: rgba(120, 166, 181, 0.4); filter: blur(5px);
+    animation: llamaradaAzulN3 2.5s infinite alternate ease-in-out;
+}
+
+#comunidad .link-card i {
+    width: 35px; text-align: center; font-size: 1.3rem; margin-right: 15px;
+    color: #c0d1d6;
+    animation: iconoBlancoN3 4s ease-in-out infinite;
+    position: relative; z-index: 10;
+}
+
+#comunidad .link-card span { position: relative; z-index: 10; font-weight: 600; }
+
+/* ANIMACIONES CLONADAS */
+@keyframes fallN3 {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    20% { opacity: 0.8; }
+    80% { opacity: 0.8; }
+    100% { transform: translateY(600px) translateX(20px); opacity: 0; }
+}
+
+@keyframes bucleCongelacionN3 {
+    0%, 100% { background-color: #ffffff; color: #78a6b5; border-color: #c0d1d6; }
+    25% { background-color: #78a6b5; color: #ffffff; border-color: #ffffff; box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.4); }
+}
+
+@keyframes brilloHieloN3 {
+    0%, 100% { opacity: 0.5; transform: rotate(0deg) scale(1); }
+    50% { opacity: 0.9; transform: rotate(15deg) scale(1.15); }
+}
+
+@keyframes llamaradaAzulN3 {
+    0% { transform: translateY(0); opacity: 0.3; }
+    100% { transform: translateY(-25px) scale(1.6); opacity: 0.7; }
+}
+
+@keyframes iconoBlancoN3 {
+    0%, 20%, 35%, 100% { color: #c0d1d6; transform: scale(1); }
+    25% { color: #ffffff; transform: scale(1.2); }
+}
